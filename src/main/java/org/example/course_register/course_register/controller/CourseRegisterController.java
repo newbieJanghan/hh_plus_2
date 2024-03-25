@@ -1,9 +1,9 @@
 package org.example.course_register.course_register.controller;
 
 import jakarta.validation.Valid;
-import org.example.course_register.course_register.domian.CourseRegistry;
 import org.example.course_register.course_register.service.CourseRegister;
 import org.example.course_register.course_register.service.CourseRegisterService;
+import org.example.course_register.domain.course_registry.CourseRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.course_register.course_register.controller.CourseRegisterController;
-import org.example.course_register.course_register.domian.CourseRegistry;
 import org.example.course_register.course_register.exception.AlreadyRegisteredException;
 import org.example.course_register.course_register.service.CourseRegister;
+import org.example.course_register.domain.course_registry.CourseRegistry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class TestCourseRegisterController {
   public void register_success() {
     long userId = 1;
     CourseRegistry courseRegistry = new CourseRegistry(userId);
-    courseRegistry.setCompleted(true);
+    courseRegistry.setCompleted();
 
     try {
       when(courseRegisterService.register(userId)).thenReturn(courseRegistry);
@@ -69,7 +69,7 @@ public class TestCourseRegisterController {
   public void register_fail_already_registered() {
     long userId = 1;
     CourseRegistry courseRegistry = new CourseRegistry(userId);
-    courseRegistry.setCompleted(true);
+    courseRegistry.setCompleted();
 
     try {
       when(courseRegisterService.register(userId)).thenThrow(new AlreadyRegisteredException());
@@ -94,7 +94,7 @@ public class TestCourseRegisterController {
   public void register_fail_no_user() {
     long userId = 1;
     CourseRegistry courseRegistry = new CourseRegistry(userId);
-    courseRegistry.setCompleted(true);
+    courseRegistry.setCompleted();
 
     try {
       when(courseRegisterService.register(userId)).thenThrow(EntityNotFoundException.class);
@@ -118,7 +118,7 @@ public class TestCourseRegisterController {
   public void getSuccessCourseRegistry() {
     long userId = 1;
     CourseRegistry courseRegistry = new CourseRegistry(userId);
-    courseRegistry.setCompleted(true);
+    courseRegistry.setCompleted();
 
     try {
       when(courseRegisterService.checkRegistry(userId)).thenReturn(courseRegistry);
@@ -140,7 +140,6 @@ public class TestCourseRegisterController {
   public void getFailCourseRegistry() {
     long userId = 1;
     CourseRegistry courseRegistry = new CourseRegistry(userId);
-    courseRegistry.setCompleted(false);
 
     try {
       when(courseRegisterService.checkRegistry(userId)).thenReturn(courseRegistry);
