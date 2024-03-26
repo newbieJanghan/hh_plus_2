@@ -4,14 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.course_register.course_register.exception.AlreadyRegisteredException;
+import org.example.course_register.course_register.exception.LimitationOverFailureException;
 import org.example.course_register.course_register.service.CourseRegister;
 import org.example.course_register.course_register.service.CourseRegisterService;
 import org.example.course_register.database.course_registry.CourseRegistryReader;
 import org.example.course_register.database.course_registry.CourseRegistryWriter;
 import org.example.course_register.domain.course_registry.CourseRegistry;
-import org.example.course_register.domain.course_registry.CourseRegistryStatus;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -27,20 +29,21 @@ public class TestCourseRegisterService {
   }
 
   @Test
+  @DisplayName("특강 수강 신청 성공")
   public void registerSuccess() {
+    long userId = 1;
+
     try {
       // given
-      CourseRegistry successCourseRegistry = new CourseRegistry(1);
-      successCourseRegistry.setCompleted();
-      when(courseRegistryWriter.write(successCourseRegistry)).thenReturn(successCourseRegistry);
+      CourseRegistry successCourseRegistry = CourseRegistry.builder().userId(userId).build();
+      when(courseRegistryReader.countAll()).thenReturn(0);
+      when(courseRegistryWriter.save(successCourseRegistry)).thenReturn(successCourseRegistry);
 
       // when
-      CourseRegistry courseRegistry = courseRegister.register(1);
+      CourseRegistry courseRegistry = courseRegister.register(userId);
 
       // then
-      assertEquals(1, courseRegistry.getUserId());
-      assertNotNull(courseRegistry.getRegisterTime());
-      assertTrue(courseRegistry.getIsCompleted());
+      assertEquals(userId, courseRegistry.getUserId());
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -48,16 +51,16 @@ public class TestCourseRegisterService {
   }
 
   @Test
+  @DisplayName("특강 수강 신청 실패 - 수강 인원 제한")
   public void registerPending_CauseOfRegisterLimitation() {
+    long userId = 1;
+
     // given
-    when(courseRegistryReader.readCount()).thenReturn(30);
+    when(courseRegistryReader.countAll()).thenReturn(30);
 
     // when
     try {
-      CourseRegistry courseRegistry = courseRegister.register(1);
-      assertEquals(1, courseRegistry.getUserId());
-      assertNotNull(courseRegistry.getRegisterTime());
-      assertEquals(CourseRegistryStatus.PENDING, courseRegistry.getStatus());
+      assertThrows(LimitationOverFailureException.class, () -> courseRegister.register(userId));
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -65,15 +68,44 @@ public class TestCourseRegisterService {
   }
 
   @Test
+  @DisplayName("특강 수강 신청 실패 - 이미 수강 신청한 경우")
   public void registerFail_CauseOfAlreadyRegistered() {
+    long userId = 1;
+
     // given
-    when(courseRegistryReader.read(1)).thenReturn(new CourseRegistry(1));
+    CourseRegistry exist = CourseRegistry.builder().userId(userId).build();
+    when(courseRegistryReader.getByUserId(userId)).thenReturn(exist);
 
     // when && then
+    assertThrows(AlreadyRegisteredException.class, () -> courseRegister.register(userId));
+  }
+
+  @Test
+  @DisplayName("특강 수강 신청 확인 - 수강 신청 성공")
+  public void checkSuccessRegistration() {
+    long userId = 1;
+
+    // given
+    CourseRegistry courseRegistry = CourseRegistry.builder().userId(userId).build();
+    when(courseRegistryReader.getByUserId(userId)).thenReturn(courseRegistry);
+
+    // when
+    CourseRegistry result = courseRegister.checkRegistrationStatus(userId);
+
+    // then
+    assertEquals(1, result.getUserId());
+  }
+
+  @Test
+  @DisplayName("특강 수강 신청 확인 - 수강 신청 내역 없음")
+  public void checkNoRegistration() {
+    long userId = 1;
+
+    // given
+    when(courseRegistryReader.getByUserId(userId)).thenReturn(null);
+
+    // when & then
     assertThrows(
-        AlreadyRegisteredException.class,
-        () -> {
-          courseRegister.register(1);
-        });
+        EntityNotFoundException.class, () -> courseRegister.checkRegistrationStatus(userId));
   }
 }
