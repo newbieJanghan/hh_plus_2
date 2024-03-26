@@ -22,8 +22,8 @@ public class CourseRegisterController {
   }
 
   @GetMapping("/{userId}")
-  public CourseRegistry checkRegistry(@PathVariable long userId) throws Exception {
-    return courseRegisterService.checkRegistry(userId);
+  public CourseRegistry checkRegistrationStatus(@PathVariable long userId) throws Exception {
+    return courseRegisterService.checkRegistrationStatus(userId);
   }
 
   @PostMapping("")
