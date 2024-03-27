@@ -1,4 +1,4 @@
-package org.example.course_register.course_register.controller;
+package org.example.course_register.api.course_registeration.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CourseRegisterCreateRequestDto {
+public class CreateRequestDto {
+  @NotNull
+  @Min(1)
+  public long courseId;
+
   @NotNull
   @Min(1)
   public long userId;

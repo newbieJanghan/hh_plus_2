@@ -1,4 +1,4 @@
-package org.example.course_register.course_register.exception;
+package org.example.course_register.api.course_registeration.exceptions;
 
 public class AlreadyRegisteredException extends RuntimeException {
   public AlreadyRegisteredException() {
