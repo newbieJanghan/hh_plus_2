@@ -1,4 +1,4 @@
-package org.example.course_register.api.course_registeration.dto;
+package org.example.course_register.api.course_registerations.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

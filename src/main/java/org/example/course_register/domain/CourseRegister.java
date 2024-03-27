@@ -2,9 +2,9 @@ package org.example.course_register.domain;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.BadRequestException;
-import org.example.course_register.api.course_registeration.CourseRegistrationService;
-import org.example.course_register.api.course_registeration.exceptions.AlreadyRegisteredException;
-import org.example.course_register.api.course_registeration.exceptions.LimitationOverFailureException;
+import org.example.course_register.api.course_registerations.CourseRegistrationsService;
+import org.example.course_register.api.course_registerations.exceptions.AlreadyRegisteredException;
+import org.example.course_register.api.course_registerations.exceptions.LimitationOverFailureException;
 import org.example.course_register.database.course.Course;
 import org.example.course_register.database.course.CourseReader;
 import org.example.course_register.database.course_registration.*;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CourseRegister implements CourseRegistrationService {
+public class CourseRegister implements CourseRegistrationsService {
 
   private static final Logger logger = LoggerFactory.getLogger(CourseRegister.class);
   private final CourseReader courseReader;
@@ -56,7 +56,7 @@ public class CourseRegister implements CourseRegistrationService {
     }
   }
 
-  public CourseRegistration checkRegistrationExist(long courseId, long userId)
+  public CourseRegistration checkExistence(long courseId, long userId)
       throws EntityNotFoundException {
     CourseRegistration result = this.courseRegistrationReader.query(courseId, userId);
     if (result == null) {

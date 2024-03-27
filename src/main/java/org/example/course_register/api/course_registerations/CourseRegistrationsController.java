@@ -1,8 +1,8 @@
-package org.example.course_register.api.course_registeration;
+package org.example.course_register.api.course_registerations;
 
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
-import org.example.course_register.api.course_registeration.dto.CreateRequestDto;
+import org.example.course_register.api.course_registerations.dto.CreateRequestDto;
 import org.example.course_register.database.course_registration.model.CourseRegistration;
 import org.example.course_register.domain.CourseRegister;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,22 +10,21 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/registration")
-public class CourseRegistrationController {
-  private final CourseRegistrationService courseRegisterService;
+public class CourseRegistrationsController {
+  private final CourseRegistrationsService courseRegisterService;
 
   @Autowired
-  CourseRegistrationController(CourseRegistrationService courseRegisterService) {
+  CourseRegistrationsController(CourseRegistrationsService courseRegisterService) {
     this.courseRegisterService = courseRegisterService;
   }
 
-  public CourseRegistrationController(CourseRegister courseRegisterService) {
+  public CourseRegistrationsController(CourseRegister courseRegisterService) {
     this.courseRegisterService = courseRegisterService;
   }
 
   @GetMapping("/{courseId}/{userId}")
-  public CourseRegistration checkRegistrationExist(
-      @PathVariable long courseId, @PathVariable long userId) {
-    return courseRegisterService.checkRegistrationExist(courseId, userId);
+  public CourseRegistration checkExistence(@PathVariable long courseId, @PathVariable long userId) {
+    return courseRegisterService.checkExistence(courseId, userId);
   }
 
   @PostMapping("")

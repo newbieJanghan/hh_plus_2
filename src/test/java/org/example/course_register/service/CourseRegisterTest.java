@@ -6,8 +6,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.BadRequestException;
-import org.example.course_register.api.course_registeration.exceptions.AlreadyRegisteredException;
-import org.example.course_register.api.course_registeration.exceptions.LimitationOverFailureException;
+import org.example.course_register.api.course_registerations.exceptions.AlreadyRegisteredException;
+import org.example.course_register.api.course_registerations.exceptions.LimitationOverFailureException;
 import org.example.course_register.database.course.Course;
 import org.example.course_register.database.course.CourseReader;
 import org.example.course_register.database.course_registration.CourseRegistrationReader;
@@ -116,7 +116,7 @@ public class CourseRegisterTest {
         .thenReturn(mockCourseRegistration(courseId, userId));
 
     // when
-    CourseRegistration result = register.checkRegistrationExist(courseId, userId);
+    CourseRegistration result = register.checkExistence(courseId, userId);
 
     // then
     assertEquals(1, result.getUserId());
@@ -132,8 +132,7 @@ public class CourseRegisterTest {
     when(courseRegistrationReader.query(courseId, userId)).thenReturn(null);
 
     // when & then
-    assertThrows(
-        EntityNotFoundException.class, () -> register.checkRegistrationExist(courseId, userId));
+    assertThrows(EntityNotFoundException.class, () -> register.checkExistence(courseId, userId));
   }
 
   private Course mockCourse() {

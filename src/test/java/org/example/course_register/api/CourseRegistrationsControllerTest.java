@@ -8,10 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.BadRequestException;
-import org.example.course_register.api.course_registeration.CourseRegistrationController;
-import org.example.course_register.api.course_registeration.CourseRegistrationService;
-import org.example.course_register.api.course_registeration.exceptions.AlreadyRegisteredException;
-import org.example.course_register.api.course_registeration.exceptions.LimitationOverFailureException;
+import org.example.course_register.api.course_registerations.CourseRegistrationsController;
+import org.example.course_register.api.course_registerations.CourseRegistrationsService;
+import org.example.course_register.api.course_registerations.exceptions.AlreadyRegisteredException;
+import org.example.course_register.api.course_registerations.exceptions.LimitationOverFailureException;
 import org.example.course_register.database.course_registration.model.CourseRegistration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,10 +22,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(CourseRegistrationController.class)
-public class CourseRegistrationControllerTest {
+@WebMvcTest(CourseRegistrationsController.class)
+public class CourseRegistrationsControllerTest {
   @Autowired private MockMvc mockMvc;
-  @MockBean private CourseRegistrationService courseRegisterService;
+  @MockBean private CourseRegistrationsService courseRegisterService;
 
   @Test
   @DisplayName("특강 수강 신청 실패 - 요청에 userId가 없을 때")
@@ -196,7 +196,7 @@ public class CourseRegistrationControllerTest {
         CourseRegistration.builder().courseId(courseId).userId(userId).build();
 
     try {
-      when(courseRegisterService.checkRegistrationExist(courseId, userId)).thenReturn(registration);
+      when(courseRegisterService.checkExistence(courseId, userId)).thenReturn(registration);
 
       mockMvc
           .perform(get("/registration/{courseId}/{userId}", courseId, userId).with(csrf()))
@@ -216,7 +216,7 @@ public class CourseRegistrationControllerTest {
     long userId = 1;
 
     try {
-      when(courseRegisterService.checkRegistrationExist(courseId, userId))
+      when(courseRegisterService.checkExistence(courseId, userId))
           .thenThrow(new EntityNotFoundException("수강 신청 내역이 없습니다."));
 
       mockMvc
@@ -238,7 +238,7 @@ public class CourseRegistrationControllerTest {
     long userId = 1;
 
     try {
-      when(courseRegisterService.checkRegistrationExist(courseId, userId))
+      when(courseRegisterService.checkExistence(courseId, userId))
           .thenThrow(new BadRequestException("userId가 올바르지 않습니다."));
 
       mockMvc
