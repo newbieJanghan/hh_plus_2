@@ -27,7 +27,7 @@ public class CourseRegistrationEvent {
   @Column(nullable = false, name = "start_at")
   private LocalDateTime startAt;
 
-  @Column(nullable = false, name = "end_at")
+  @Column(name = "end_at")
   private LocalDateTime endAt;
 
   @CreationTimestamp
