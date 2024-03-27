@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateRequestDto {
+public class CreateCourseRegistrationRequestDto {
   @NotNull
   @Min(1)
   public long courseId;

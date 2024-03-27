@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CourseRegister implements CourseRegistrationsService {
+public class CourseRegistrationManager implements CourseRegistrationsService {
 
-  private static final Logger logger = LoggerFactory.getLogger(CourseRegister.class);
+  private static final Logger logger = LoggerFactory.getLogger(CourseRegistrationManager.class);
   private final CourseReader courseReader;
   private final CourseRegistrationWriter courseRegistrationWriter;
   private final CourseRegistrationReader courseRegistrationReader;
@@ -27,7 +27,7 @@ public class CourseRegister implements CourseRegistrationsService {
   private final int REGISTRATION_LIMIT = 30;
 
   @Autowired
-  public CourseRegister(
+  public CourseRegistrationManager(
       CourseReader courseReader,
       CourseRegistrationWriter courseRegistrationWriter,
       CourseRegistrationReader courseRegistrationReader) {

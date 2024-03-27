@@ -13,23 +13,25 @@ import org.example.course_register.database.course.CourseReader;
 import org.example.course_register.database.course_registration.CourseRegistrationReader;
 import org.example.course_register.database.course_registration.CourseRegistrationWriter;
 import org.example.course_register.database.course_registration.model.CourseRegistration;
-import org.example.course_register.domain.CourseRegister;
+import org.example.course_register.domain.CourseRegistrationManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-public class CourseRegisterTest {
+public class CourseRegistrationManagerTest {
   private @Mock CourseRegistrationWriter courseRegistrationWriter;
   private @Mock CourseRegistrationReader courseRegistrationReader;
   private @Mock CourseReader courseReader;
 
-  private CourseRegister register;
+  private CourseRegistrationManager register;
 
   @BeforeEach
   public void setUp() {
     initMocks(this);
-    register = new CourseRegister(courseReader, courseRegistrationWriter, courseRegistrationReader);
+    register =
+        new CourseRegistrationManager(
+            courseReader, courseRegistrationWriter, courseRegistrationReader);
   }
 
   @Test
