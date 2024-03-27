@@ -6,6 +6,7 @@ import org.example.course_register.api.course_registerations.dto.CreateRequestDt
 import org.example.course_register.database.course_registration.model.CourseRegistration;
 import org.example.course_register.domain.CourseRegister;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,6 +29,7 @@ public class CourseRegistrationsController {
   }
 
   @PostMapping("")
+  @ResponseStatus(HttpStatus.CREATED)
   public CourseRegistration register(@RequestBody @Valid CreateRequestDto requestDto)
       throws BadRequestException {
     return courseRegisterService.register(requestDto.getCourseId(), requestDto.getUserId());

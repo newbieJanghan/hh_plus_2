@@ -67,11 +67,10 @@ public class CourseRegistrationsControllerTest {
   public void register_success() {
     long courseId = 1;
     long userId = 1;
-    CourseRegistration registration =
-        CourseRegistration.builder().courseId(courseId).userId(userId).build();
 
     try {
-      when(courseRegisterService.register(courseId, userId)).thenReturn(registration);
+      when(courseRegisterService.register(courseId, userId))
+          .thenReturn(mockRegistration(courseId, userId));
 
       mockMvc
           .perform(
@@ -79,7 +78,7 @@ public class CourseRegistrationsControllerTest {
                   .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"courseId\":1,\"userId\":1}"))
-          .andExpect(status().isOk())
+          .andExpect(status().isCreated())
           .andExpect(jsonPath("$.userId").value(1));
     } catch (Exception e) {
       e.printStackTrace();
@@ -192,11 +191,9 @@ public class CourseRegistrationsControllerTest {
     long courseId = 1;
     long userId = 1;
 
-    CourseRegistration registration =
-        CourseRegistration.builder().courseId(courseId).userId(userId).build();
-
     try {
-      when(courseRegisterService.checkExistence(courseId, userId)).thenReturn(registration);
+      when(courseRegisterService.checkExistence(courseId, userId))
+          .thenReturn(mockRegistration(courseId, userId));
 
       mockMvc
           .perform(get("/registration/{courseId}/{userId}", courseId, userId).with(csrf()))
@@ -250,5 +247,9 @@ public class CourseRegistrationsControllerTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private CourseRegistration mockRegistration(long courseId, long userId) {
+    return CourseRegistration.builder().courseId(courseId).userId(userId).build();
   }
 }
