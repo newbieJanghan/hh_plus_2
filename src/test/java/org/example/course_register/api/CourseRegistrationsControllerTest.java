@@ -34,7 +34,7 @@ public class CourseRegistrationsControllerTest {
     try {
       mockMvc
           .perform(
-              post("/registration")
+              post("/registrations")
                   .with(csrf())
                   .contentType("application/json")
                   .content("{\"courseId\":1}"))
@@ -51,7 +51,7 @@ public class CourseRegistrationsControllerTest {
     try {
       mockMvc
           .perform(
-              post("/registration")
+              post("/registrations")
                   .with(csrf())
                   .contentType("application/json")
                   .content("{\"userId\":1}"))
@@ -74,7 +74,7 @@ public class CourseRegistrationsControllerTest {
 
       mockMvc
           .perform(
-              post("/registration")
+              post("/registrations")
                   .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"courseId\":1,\"userId\":1}"))
@@ -98,7 +98,7 @@ public class CourseRegistrationsControllerTest {
 
       mockMvc
           .perform(
-              post("/registration")
+              post("/registrations")
                   .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"courseId\":1, \"userId\":1}"))
@@ -123,7 +123,7 @@ public class CourseRegistrationsControllerTest {
 
       mockMvc
           .perform(
-              post("/registration")
+              post("/registrations")
                   .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"courseId\":1, \"userId\":1}"))
@@ -148,7 +148,7 @@ public class CourseRegistrationsControllerTest {
 
       mockMvc
           .perform(
-              post("/registration")
+              post("/registrations")
                   .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"courseId\":1, \"userId\":1}"))
@@ -173,7 +173,7 @@ public class CourseRegistrationsControllerTest {
 
       mockMvc
           .perform(
-              post("/registration")
+              post("/registrations")
                   .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"courseId\":1, \"userId\":1}"))

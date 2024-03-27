@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/registration")
+@RequestMapping("/registrations")
 public class CourseRegistrationsController {
   private final CourseRegistrationsService courseRegisterService;
 
